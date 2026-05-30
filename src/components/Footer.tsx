@@ -18,44 +18,19 @@ export function Footer() {
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-tinh-dusk">
                 Email
               </p>
-              <a
-                href="mailto:hello@tinh.project"
-                className="mt-1 inline-block text-tinh-cream underline decoration-tinh-dusk underline-offset-4 transition hover:text-white"
-              >
-                hello@tinh.project
-              </a>
-            </div>
-            <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-tinh-dusk">
-                Điện thoại
-              </p>
-              <a
-                href="tel:+84901234567"
-                className="mt-1 inline-block text-tinh-cream transition hover:text-white"
-              >
-                +84 90 123 4567
-              </a>
+           
             </div>
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-tinh-dusk">
                 Địa chỉ
               </p>
               <p className="mt-1 max-w-xs leading-relaxed text-tinh-dusk">
-                Khu học tập / Studio — placeholder, cập nhật sau khi có địa chỉ
-                cố định.
+                FPTU Hòa Lạc, Hà Nội
               </p>
             </div>
             <div className="flex gap-6 pt-2">
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-xs font-medium text-tinh-dusk transition hover:text-white"
-              >
-                Instagram
-              </a>
-              <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/tinhthaomocthiennhien"
                 target="_blank"
                 rel="noreferrer"
                 className="text-xs font-medium text-tinh-dusk transition hover:text-white"

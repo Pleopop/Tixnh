@@ -1,3 +1,5 @@
+
+import logo from "../../assets/Logo.png";
 const links = [
   { href: "#gioi-thieu", label: "Giới thiệu" },
   { href: "#san-pham", label: "Sản phẩm" },
@@ -13,7 +15,11 @@ export function Header() {
           href="#"
           className="font-serif text-2xl tracking-wide text-tinh-ink transition-opacity hover:opacity-80"
         >
-          Tĩnh
+          <img
+            src={logo}
+            alt="Tĩnh Logo"
+            className="h-10 w-auto"
+          />
         </a>
         <nav className="flex flex-wrap items-center justify-end gap-x-5 gap-y-1 text-xs font-medium text-tinh-muted sm:gap-x-6 md:gap-8 md:text-sm">
           {links.map((l) => (

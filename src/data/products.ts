@@ -1,3 +1,7 @@
+
+import imgTinhYen from "../../assets/tinh-yen.png";
+import imgTinhTram from "../../assets/tinh-tram.png";
+import imgTinhNhien from "../../assets/tinh-nhien.png";
 export type Product = {
   id: string;
   name: string;
@@ -11,47 +15,39 @@ export type Product = {
 
 export const products: Product[] = [
   {
-    id: "hue-lang",
-    lineLabel: "Dòng Hương lang",
-    name: "Tĩnh · Hương làng",
-    tagline: "Trầm ấm của gỗ và lá khô sau mưa",
+    id: "tinh-yen",
+    lineLabel: "Bộ sưu tập Tĩnh",
+    name: "Tĩnh · Yên",
+    tagline: "Oải hương, hoa cúc và tinh dầu nhài dịu nhẹ",
     description:
-      "Pha trộn trầm nhẹ với cam thảo và lá trầu — hơi ấm bám nhẹ trên vải lanh, gợi không khí hiên nhà im lìm chiều muộn.",
+      "Mùi hương thư giãn, tối ưu cho những khoảnh khắc trước khi chìm vào giấc ngủ. Thành phần gồm oải hương khô, hoa cúc, vỏ cam trần bì và tinh dầu hoa nhài.",
     story:
-      "Câu chuyện bắt đầu từ một buổi chiều đứng sau hiên, nghe lá rơi. Chúng mình muốn gói cả khoảnh khắc ấy vào một túi nhỏ để mang đi bất cứ đâu.",
-    accentColor: "#8a9a8f",
+      "Như một thước phim tua chậm vào cuối ngày, khi vạn vật đã chìm vào tĩnh lặng. Tĩnh Yên là lời chúc ngủ ngon dịu dàng nhất, gói gọn những hương thơm êm ái để đưa tâm trí vào một giấc ngủ sâu.",
+    accentColor: "#948b96", 
+    image: imgTinhYen, 
   },
   {
-    id: "hue-doi",
-    lineLabel: "Dòng Đồi núi",
-    name: "Tĩnh · Hương đồi",
-    tagline: "Bạc hà, cỏ roi ngựa và làn gió cao",
+    id: "tinh-tram",
+    lineLabel: "Bộ sưu tập Tĩnh",
+    name: "Tĩnh · Trầm",
+    tagline: "Hương vị ấm áp của quế, đinh hương và hoa hồi",
     description:
-      "Tông trong trẻo, thoáng chút cay nhẹ của thảo mộc vùng cao — gợi sự tỉnh táo dịu, không gắt, thích hợp không gian làm việc và đọc sách.",
+      "Mang mùi hương ấm áp, giúp xoa dịu tinh thần và mang lại cảm giác an yên khi đối mặt với căng thẳng. Công thức phối trộn từ quế vụn, đinh hương, trần bì và hoa hồi.",
     story:
-      "Mỗi lần mở túi là một lần nhớ về con đường mòn quanh đồi — mùi cỏ hòa với sương. Đó là lời nhắc nhở: thở chậm lại, đủ để nghe chính mình.",
-    accentColor: "#9aab9e",
+      "Nhắc nhớ về những buổi chiều cũ thoang thoảng hương quế nồng đượm. Tĩnh Trầm như một nốt lặng xoa dịu tâm trí giữa những bộn bề, như một cái ôm an ủi giữ lại chút vững chãi cho tâm hồn.",
+    accentColor: "#a8897a",
+    image: imgTinhTram,
   },
   {
-    id: "hue-lo",
-    lineLabel: "Dòng Vườn lộ",
-    name: "Tĩnh · Hương lộ",
-    tagline: "Nhài, ngọc lan và một chút mật ong",
+    id: "tinh-nhien",
+    lineLabel: "Bộ sưu tập Tĩnh",
+    name: "Tĩnh · Nhiên",
+    tagline: "Sự thanh mát từ trần bì, ngải cứu và cúc chi",
     description:
-      "Ngọt thanh, nữ tính — như cửa sổ mở ra khu vườn sau nhà. Giữ hương lâu nhưng không nồng, phù hợp phòng ngủ và không gian thiền nhẹ.",
+      "Tạo cảm giác tươi mát, sảng khoái tức thì, hỗ trợ xoa dịu những cơn đau đầu. Sự kết hợp độc đáo giữa trần bì xay vỡ hạt lựu, ngải cứu và hoa cúc chi.",
     story:
-      "Những bông hoa nhài được hái lúc tinh mơ, để khô tự nhiên. Chúng mình kể rằng giấc ngủ cũng có thể có mùi — dịu, mềm, và tin cậy.",
-    accentColor: "#b8a99a",
-  },
-  {
-    id: "hue-co",
-    lineLabel: "Dòng Cổ điển",
-    name: "Tĩnh · Hương cổ",
-    tagline: "Quế, đinh hương và hoàng đàn",
-    description:
-      "Ấm sâu, mang chất trầm của phòng trà — dành cho ai yêu sự trang nhã kiểu cũ, như một cuốn sổ tay đã vàng mép.",
-    story:
-      "Từ chiếc hộp gỗ của bà, đến chiếc túi vải của chúng mình hôm nay: truyền thống không nặng nề — chỉ là một nhịp thở chậm giữa ngày vội.",
-    accentColor: "#a89b8c",
+      "Trong trẻo như một sớm ban mai đầy nắng rọi qua khung cửa kính. Tĩnh Nhiên mang theo làn gió thảo mộc mát lành, đánh thức sự tươi mới và thanh lọc nhẹ nhàng mọi luồng không khí xung quanh.",
+    accentColor: "#899a8c", 
+    image: imgTinhNhien,
   },
 ];
