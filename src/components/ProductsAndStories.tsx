@@ -4,9 +4,23 @@ import { fadeUpVariants } from "../lib/motion";
 import { Section } from "./Section";
 import { ProductVisual } from "./ProductVisual";
 
+import { useCart } from "../context/CartContext";
+
+function formatVND(n: number) {
+  return n.toLocaleString("vi-VN") + "₫";
+}
+
+const PRICE_MAP: Record<string, number> = {
+  "tinh-yen": 40000,
+  "tinh-tram": 40000,
+  "tinh-nhien": 40000,
+};
+
 export function ProductsAndStories() {
   const reduced = useReducedMotion();
   const fade = fadeUpVariants(!!reduced);
+
+  const { addItem, items } = useCart();
 
   return (
     <Section
@@ -18,6 +32,10 @@ export function ProductsAndStories() {
       <div className="space-y-20 sm:space-y-24 md:space-y-28">
         {products.map((product, index) => {
           const imageOnLeft = index % 2 === 0;
+
+          const price = PRICE_MAP[product.id] ?? 185000;
+          const inCart = items.find((i) => i.product.id === product.id);
+
           return (
             <motion.article
               key={product.id}
@@ -37,11 +55,7 @@ export function ProductsAndStories() {
             >
               <motion.div
                 variants={fade}
-                className={
-                  imageOnLeft
-                    ? "order-1 md:order-1"
-                    : "order-1 md:order-2"
-                }
+                className={imageOnLeft ? "order-1 md:order-1" : "order-1 md:order-2"}
               >
                 <ProductVisual product={product} />
               </motion.div>
@@ -81,6 +95,38 @@ export function ProductsAndStories() {
                     {product.story}
                   </p>
                 </aside>
+
+
+                {/* Price + Add to cart */}
+                <div className="flex items-center gap-4 pt-1">
+                  <div>
+                    <p className="font-sans text-xs text-tinh-muted">Giá bán</p>
+                    <p className="font-serif text-2xl text-tinh-ink">{formatVND(price)}</p>
+                  </div>
+                  <button
+                    onClick={() => addItem(product)}
+                    className={`flex flex-1 items-center justify-center gap-2 rounded-full px-6 py-3 font-sans text-sm font-semibold transition ${
+                      inCart
+                        ? "border border-tinh-sageDeep bg-tinh-sageDeep/10 text-tinh-sageDeep hover:bg-tinh-sageDeep hover:text-white"
+                        : "bg-tinh-sageDeep text-white shadow-sm hover:bg-tinh-ink"
+                    }`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={1.8}
+                      className="h-4 w-4"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"
+                      />
+                    </svg>
+                    {inCart ? `Thêm 1 nữa (đang có ${inCart.quantity})` : "Thêm vào giỏ hàng"}
+                  </button>
+                </div>
               </motion.div>
             </motion.article>
           );
