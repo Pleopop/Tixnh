@@ -11,9 +11,9 @@ function formatVND(n: number) {
 }
 
 const PRICE_MAP: Record<string, number> = {
-  "tinh-yen": 35000,
-  "tinh-tram": 29000,
-  "tinh-nhien": 27000,
+  "tinh-yen": 40000,
+  "tinh-tram": 40000,
+  "tinh-nhien": 40000,
 };
 
 export function ProductsAndStories() {

@@ -1,9 +1,9 @@
 export const SHIPPING_FEE = 30_000;
 
 export const PRODUCT_PRICES: Record<string, { name: string; price: number }> = {
-  "tinh-yen": { name: "Tĩnh · Yên", price: 35000 },
-  "tinh-tram": { name: "Tĩnh · Trầm", price: 29000 },
-  "tinh-nhien": { name: "Tĩnh · Nhiên", price: 27000 },
+  "tinh-yen": { name: "Tĩnh · Yên", price: 40000 },
+  "tinh-tram": { name: "Tĩnh · Trầm", price: 40000 },
+  "tinh-nhien": { name: "Tĩnh · Nhiên", price: 40000 },
 };
 
 export function getProductPrice(productId: string): number | undefined {
