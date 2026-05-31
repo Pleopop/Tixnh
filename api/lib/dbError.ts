@@ -1,5 +1,6 @@
 import { Prisma } from "@prisma/client";
 import type { VercelResponse } from "@vercel/node";
+import { serializeError } from "./db";
 
 export function handleDbError(res: VercelResponse, err: unknown, fallback: string) {
   console.error(fallback, err);
@@ -27,5 +28,8 @@ export function handleDbError(res: VercelResponse, err: unknown, fallback: strin
     }
   }
 
-  return res.status(500).json({ error: fallback });
+  const info = serializeError(err);
+  console.error(fallback, info);
+
+  return res.status(500).json({ error: fallback, detail: info.message });
 }
