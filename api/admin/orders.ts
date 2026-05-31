@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { prisma } from "../../lib/db";
 import { getBearerToken, verifyAdminToken } from "../../lib/auth";
 import { applyAdminCors } from "../../lib/cors";
 
@@ -20,6 +19,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    const { getPrisma } = await import("../../lib/db");
+    const prisma = getPrisma();
+
     const orders = await prisma.order.findMany({
       orderBy: { createdAt: "desc" },
       include: { items: true },

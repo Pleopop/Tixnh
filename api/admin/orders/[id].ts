@@ -1,10 +1,15 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { OrderStatus } from "@prisma/client";
-import { prisma } from "../../../lib/db";
+import type { OrderStatus } from "@prisma/client";
 import { getBearerToken, verifyAdminToken } from "../../../lib/auth";
 import { applyAdminCors } from "../../../lib/cors";
 
-const VALID_STATUSES = new Set<string>(Object.values(OrderStatus));
+const VALID_STATUSES = new Set<string>([
+  "PENDING",
+  "CONFIRMED",
+  "SHIPPING",
+  "DELIVERED",
+  "CANCELLED",
+]);
 
 function unauthorized(res: VercelResponse) {
   return res.status(401).json({ error: "Unauthorized" });
@@ -33,6 +38,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    const { getPrisma } = await import("../../../lib/db");
+    const prisma = getPrisma();
+
     const order = await prisma.order.update({
       where: { id },
       data: { status: status as OrderStatus },

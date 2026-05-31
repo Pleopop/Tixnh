@@ -1,5 +1,4 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { prisma } from "../lib/db";
 import { generateOrderCode } from "../lib/orders";
 import {
   getProductName,
@@ -87,6 +86,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const orderCode = generateOrderCode();
 
   try {
+    const { getPrisma } = await import("../lib/db");
+    const prisma = getPrisma();
+
     const order = await prisma.order.create({
       data: {
         orderCode,

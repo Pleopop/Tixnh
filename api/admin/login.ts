@@ -1,7 +1,4 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import bcrypt from "bcryptjs";
-import { prisma } from "../../lib/db";
-import { signAdminToken } from "../../lib/auth";
 import { applyAdminCors } from "../../lib/cors";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -22,6 +19,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    const bcrypt = (await import("bcryptjs")).default;
+    const { getPrisma } = await import("../../lib/db");
+    const { signAdminToken } = await import("../../lib/auth");
+    const prisma = getPrisma();
+
     const user = await prisma.adminUser.findUnique({
       where: { username: username.trim() },
     });
