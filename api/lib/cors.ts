@@ -10,7 +10,6 @@ const DEFAULT_ADMIN_ORIGINS = [
   "https://admin-tinhx.vercel.app",
 ];
 
-/** Preview deploys: tinhx-admin-xxx.vercel.app, tinhx-admin-git-main-xxx.vercel.app */
 const ADMIN_ORIGIN_PATTERN =
   /^https:\/\/tinhx-admin[a-z0-9-]*\.vercel\.app$/i;
 

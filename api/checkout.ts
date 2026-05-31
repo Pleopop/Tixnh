@@ -1,10 +1,11 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { generateOrderCode } from "../lib/orders";
+import { getPrisma } from "./lib/db";
+import { generateOrderCode } from "./lib/orders";
 import {
   getProductName,
   getProductPrice,
   SHIPPING_FEE,
-} from "../lib/prices";
+} from "./lib/prices";
 
 type CheckoutItem = { productId: string; quantity: number };
 
@@ -86,7 +87,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const orderCode = generateOrderCode();
 
   try {
-    const { getPrisma } = await import("../lib/db");
     const prisma = getPrisma();
 
     const order = await prisma.order.create({

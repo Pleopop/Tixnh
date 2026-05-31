@@ -1,7 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import type { OrderStatus } from "@prisma/client";
-import { getBearerToken, verifyAdminToken } from "../../../lib/auth";
-import { applyAdminCors } from "../../../lib/cors";
+import { getBearerToken, verifyAdminToken } from "../../lib/auth";
+import { applyAdminCors } from "../../lib/cors";
+import { getPrisma } from "../../lib/db";
 
 const VALID_STATUSES = new Set<string>([
   "PENDING",
@@ -38,7 +39,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { getPrisma } = await import("../../../lib/db");
     const prisma = getPrisma();
 
     const order = await prisma.order.update({

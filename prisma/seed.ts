@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import { getPrisma } from "../lib/db";
+import { getPrisma } from "../api/lib/db";
 
 async function main() {
   const prisma = getPrisma();

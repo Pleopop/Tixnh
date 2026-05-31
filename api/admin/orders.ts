@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getBearerToken, verifyAdminToken } from "../../lib/auth";
-import { applyAdminCors } from "../../lib/cors";
+import { getBearerToken, verifyAdminToken } from "../lib/auth";
+import { applyAdminCors } from "../lib/cors";
+import { getPrisma } from "../lib/db";
 
 function unauthorized(res: VercelResponse) {
   return res.status(401).json({ error: "Unauthorized" });
@@ -19,7 +20,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const { getPrisma } = await import("../../lib/db");
     const prisma = getPrisma();
 
     const orders = await prisma.order.findMany({

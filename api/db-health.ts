@@ -1,9 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { getPrisma } from "./lib/db";
 
-/** Kiểm tra kết nối DB — dùng một lần sau deploy, xóa sau khi ổn định. */
 export default async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
-    const { getPrisma } = await import("../lib/db");
     const prisma = getPrisma();
     await prisma.$queryRaw`SELECT 1`;
     const adminCount = await prisma.adminUser.count();

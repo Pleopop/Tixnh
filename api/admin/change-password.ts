@@ -1,6 +1,9 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getBearerToken, verifyAdminToken } from "../../lib/auth";
-import { applyAdminCors } from "../../lib/cors";
+import bcrypt from "bcryptjs";
+import { getBearerToken, signAdminToken, verifyAdminToken } from "../lib/auth";
+import { applyAdminCors } from "../lib/cors";
+import { getPrisma } from "../lib/db";
+import { handleDbError } from "../lib/dbError";
 
 const MIN_PASSWORD_LENGTH = 8;
 
@@ -40,9 +43,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const bcrypt = (await import("bcryptjs")).default;
-    const { getPrisma } = await import("../../lib/db");
-    const { signAdminToken } = await import("../../lib/auth");
     const prisma = getPrisma();
 
     const user = await prisma.adminUser.findUnique({
@@ -67,7 +67,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       token: newToken,
     });
   } catch (err) {
-    console.error("change password error", err);
-    return res.status(500).json({ error: "Không thể đổi mật khẩu" });
+    return handleDbError(res, err, "Không thể đổi mật khẩu");
   }
 }
