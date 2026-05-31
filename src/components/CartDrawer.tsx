@@ -77,7 +77,7 @@ export function CartDrawer() {
               ) : (
                 <ul className="space-y-4">
                   {items.map((item) => {
-                    const price = PRICE_MAP[item.product.id] ?? 185000;
+                    const price = PRICE_MAP[item.product.id] ?? 40000;
                     return (
                       <motion.li
                         key={item.product.id}

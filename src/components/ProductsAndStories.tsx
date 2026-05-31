@@ -30,7 +30,7 @@ export function ProductsAndStories() {
       <div className="space-y-20 sm:space-y-24 md:space-y-28">
         {products.map((product, index) => {
           const imageOnLeft = index % 2 === 0;
-          const price = PRICE_MAP[product.id] ?? 185000;
+          const price = PRICE_MAP[product.id] ?? 40000;
           const inCart = items.find((i) => i.product.id === product.id);
 
           return (
