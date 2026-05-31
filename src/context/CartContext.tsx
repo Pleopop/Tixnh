@@ -1,5 +1,7 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { Product } from "../data/products";
+import { PRODUCT_PRICES } from "../../lib/prices";
+import { postCheckout } from "../lib/checkout";
 
 export type CartItem = {
   product: Product;
@@ -39,15 +41,9 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | null>(null);
 
-const PRICE_MAP: Record<string, number> = {
-  "tinh-yen": 185000,
-  "tinh-tram": 185000,
-  "tinh-nhien": 185000,
-};
-
-function generateOrderCode() {
-  return "TINH-" + Date.now().toString(36).toUpperCase();
-}
+const PRICE_MAP: Record<string, number> = Object.fromEntries(
+  Object.entries(PRODUCT_PRICES).map(([id, p]) => [id, p.price])
+);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
@@ -92,23 +88,28 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = useCallback(() => setStatus("idle"), []);
   const goToCheckout = useCallback(() => setStatus("checkout"), []);
 
-  const submitOrder = useCallback((info: ShippingInfo, method: PaymentMethod) => {
-    setShippingInfo(info);
-    setPaymentMethod(method);
-    setStatus("processing");
+  const submitOrder = useCallback(
+    async (info: ShippingInfo, method: PaymentMethod) => {
+      setShippingInfo(info);
+      setPaymentMethod(method);
+      setStatus("processing");
 
-    // Simulate payment processing
-    setTimeout(() => {
-      const success = Math.random() > 0.1; // 90% success rate
-      if (success) {
-        setOrderCode(generateOrderCode());
+      const payload = items.map((i) => ({
+        productId: i.product.id,
+        quantity: i.quantity,
+      }));
+
+      try {
+        const result = await postCheckout(payload, info, method);
+        setOrderCode(result.orderCode);
         setStatus("success");
         setItems([]);
-      } else {
+      } catch {
         setStatus("cancelled");
       }
-    }, 2000);
-  }, []);
+    },
+    [items]
+  );
 
   const cancelOrder = useCallback(() => {
     setStatus("idle");
