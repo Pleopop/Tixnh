@@ -114,6 +114,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const cancelOrder = useCallback(() => {
     setStatus("idle");
     setShippingInfo(null);
+    setOrderCode("");
     setItems([]);
   }, []);
 

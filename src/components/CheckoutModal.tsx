@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCart, type ShippingInfo, type PaymentMethod, PRICE_MAP } from "../context/CartContext";
 
 function formatVND(n: number) {
@@ -10,20 +10,37 @@ type Step = "info" | "payment" | "confirm" | "processing";
 
 const SHIPPING_FEE = 30000;
 
+const EMPTY_FORM: ShippingInfo = {
+  fullName: "",
+  phone: "",
+  address: "",
+  city: "",
+  note: "",
+};
+
 export function CheckoutModal() {
   const { status, items, totalPrice, submitOrder, openCart } = useCart();
-  const isOpen = status === "checkout";
+  const isOpen = status === "checkout" || status === "processing";
 
   const [step, setStep] = useState<Step>("info");
-  const [form, setForm] = useState<ShippingInfo>({
-    fullName: "",
-    phone: "",
-    address: "",
-    city: "",
-    note: "",
-  });
+  const [form, setForm] = useState<ShippingInfo>(EMPTY_FORM);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("cod");
   const [errors, setErrors] = useState<Partial<ShippingInfo>>({});
+
+  useEffect(() => {
+    if (status === "checkout") {
+      setStep("info");
+      setForm(EMPTY_FORM);
+      setPaymentMethod("cod");
+      setErrors({});
+    }
+  }, [status]);
+
+  useEffect(() => {
+    if (status === "processing") {
+      setStep("processing");
+    }
+  }, [status]);
 
   function validate() {
     const e: Partial<ShippingInfo> = {};
