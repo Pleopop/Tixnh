@@ -1,10 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 
-function formatVND(n: number) {
-  return n.toLocaleString("vi-VN") + "₫";
-}
-
 export function OrderResult() {
   const { status, orderCode, shippingInfo, paymentMethod, cancelOrder } = useCart();
 
