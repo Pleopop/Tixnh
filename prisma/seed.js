@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
-const prisma = new PrismaClient();
+import { getPrisma } from "../lib/db";
 async function main() {
+    const prisma = getPrisma();
     const teamMembers = [
         { username: "LeThiHa", password: "password123" },
         { username: "VuQuynhHuong", password: "password123" },
@@ -25,4 +25,6 @@ main()
     console.error(e);
     process.exit(1);
 })
-    .finally(() => prisma.$disconnect());
+    .finally(async () => {
+    await getPrisma().$disconnect();
+});

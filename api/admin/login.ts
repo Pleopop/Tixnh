@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { applyAdminCors } from "../../lib/cors";
+import { handleDbError } from "../../lib/dbError";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (applyAdminCors(req, res)) return;
@@ -40,7 +41,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       expiresIn: "7d",
     });
   } catch (err) {
-    console.error("admin login error", err);
-    return res.status(500).json({ error: "Đăng nhập thất bại" });
+    return handleDbError(res, err, "Đăng nhập thất bại");
   }
 }
