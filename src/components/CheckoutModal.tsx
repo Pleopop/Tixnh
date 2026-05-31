@@ -240,7 +240,7 @@ export function CheckoutModal() {
                           {item.product.name} × {item.quantity}
                         </span>
                         <span className="font-sans text-sm text-tinh-muted">
-                          {formatVND((PRICE_MAP[item.product.id] ?? 185000) * item.quantity)}
+                          {formatVND((PRICE_MAP[item.product.id] ?? 40000) * item.quantity)}
                         </span>
                       </li>
                     ))}
