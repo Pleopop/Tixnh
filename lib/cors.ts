@@ -1,30 +1,54 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-function allowedOrigins(): string[] {
-  const origins = [
-    process.env.ADMIN_ORIGIN,
-    "https://tinhx-admin.vercel.app", 
-    "http://localhost:5174",
-    "http://127.0.0.1:5174",
-  ].filter((o): o is string => Boolean(o));
-  return origins;
+const LOCAL_ORIGINS = [
+  "http://localhost:5174",
+  "http://127.0.0.1:5174",
+];
+
+const DEFAULT_ADMIN_ORIGINS = [
+  "https://tinhx-admin.vercel.app",
+  "https://admin-tinhx.vercel.app",
+];
+
+/** Preview deploys: tinhx-admin-xxx.vercel.app, tinhx-admin-git-main-xxx.vercel.app */
+const ADMIN_ORIGIN_PATTERN =
+  /^https:\/\/tinhx-admin[a-z0-9-]*\.vercel\.app$/i;
+
+function parseEnvOrigins(): string[] {
+  const fromList = process.env.ADMIN_ORIGINS?.split(",")
+    .map((o) => o.trim())
+    .filter(Boolean);
+  const single = process.env.ADMIN_ORIGIN?.trim();
+  return [...(fromList ?? []), ...(single ? [single] : [])];
+}
+
+function isAllowedOrigin(origin: string): boolean {
+  const allowed = [...parseEnvOrigins(), ...DEFAULT_ADMIN_ORIGINS, ...LOCAL_ORIGINS];
+  if (allowed.includes(origin)) return true;
+  return ADMIN_ORIGIN_PATTERN.test(origin);
 }
 
 export function applyAdminCors(req: VercelRequest, res: VercelResponse): boolean {
   const origin = req.headers.origin;
-  const allowed = allowedOrigins();
 
-  // Nếu trình duyệt gọi từ link Admin thật, nó sẽ lọt qua khe này
-  if (origin && allowed.includes(origin)) {
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Authorization, Content-Type, X-Requested-With"
+  );
+  res.setHeader("Access-Control-Max-Age", "86400");
+
+  if (origin && isAllowedOrigin(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
     res.setHeader("Vary", "Origin");
   }
 
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-
   if (req.method === "OPTIONS") {
-    res.status(200).send("OK");
+    if (!origin || !isAllowedOrigin(origin)) {
+      res.status(403).json({ error: "CORS origin not allowed" });
+      return true;
+    }
+    res.status(204).end();
     return true;
   }
 
